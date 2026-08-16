@@ -112,7 +112,8 @@ public class Color implements Collection, UL4Instance, UL4Repr, UL4GetItem, UL4D
 
 	public static Color fromrgb(double r, double g, double b, double a)
 	{
-		return new Color((int)(255*r), (int)(255*g), (int)(255*b), (int)(255*a));
+		// Round half up
+		return new Color((int)(255*r + 0.5), (int)(255*g + 0.5), (int)(255*b + 0.5), (int)(255*a + 0.5));
 	}
 
 	public static Color fromrgb(double r, double g, double b)
@@ -142,10 +143,10 @@ public class Color implements Collection, UL4Instance, UL4Repr, UL4GetItem, UL4D
 		int rr = 0;
 		int rg = 0;
 		int rb = 0;
-		int ra = (int)(255.*a);
+		int ra = (int)(255.*a + 0.5);
 
 		if (s == 0.0)
- 			rr = rg = rb = (int)(255.*v);
+ 			rr = rg = rb = (int)(255.*v + 0.5);
 		else
 		{
 			int i = (int)(h*6.0);
@@ -158,34 +159,34 @@ public class Color implements Collection, UL4Instance, UL4Repr, UL4GetItem, UL4D
 			{
 				case 0:
 				case 6:
-					rr = (int)(255.*v);
-					rg = (int)(255.*t);
-					rb = (int)(255.*p);
+					rr = (int)(255.*v + 0.5);
+					rg = (int)(255.*t + 0.5);
+					rb = (int)(255.*p + 0.5);
 					break;
 				case 1:
-					rr = (int)(255.*q);
-					rg = (int)(255.*v);
-					rb = (int)(255.*p);
+					rr = (int)(255.*q + 0.5);
+					rg = (int)(255.*v + 0.5);
+					rb = (int)(255.*p + 0.5);
 					break;
 				case 2:
-					rr = (int)(255.*p);
-					rg = (int)(255.*v);
-					rb = (int)(255.*t);
+					rr = (int)(255.*p + 0.5);
+					rg = (int)(255.*v + 0.5);
+					rb = (int)(255.*t + 0.5);
 					break;
 				case 3:
-					rr = (int)(255.*p);
-					rg = (int)(255.*q);
-					rb = (int)(255.*v);
+					rr = (int)(255.*p + 0.5);
+					rg = (int)(255.*q + 0.5);
+					rb = (int)(255.*v + 0.5);
 					break;
 				case 4:
-					rr = (int)(255.*t);
-					rg = (int)(255.*p);
-					rb = (int)(255.*v);
+					rr = (int)(255.*t + 0.5);
+					rg = (int)(255.*p + 0.5);
+					rb = (int)(255.*v + 0.5);
 					break;
 				case 5:
-					rr = (int)(255.*v);
-					rg = (int)(255.*p);
-					rb = (int)(255.*q);
+					rr = (int)(255.*v + 0.5);
+					rg = (int)(255.*p + 0.5);
+					rb = (int)(255.*q + 0.5);
 					break;
 			}
 		}
@@ -231,7 +232,7 @@ public class Color implements Collection, UL4Instance, UL4Repr, UL4GetItem, UL4D
 			a = 1.0;
 
 		if (s == 0.0)
-			return new Color((int)(255.*l), (int)(255.*l), (int)(255.*l), (int)(255.*a));
+			return new Color((int)(255.*l + 0.5), (int)(255.*l + 0.5), (int)(255.*l + 0.5), (int)(255.*a + 0.5));
 
 		double m2 = l <= 0.5 ? l * (1.0+s) : l+s-(l*s);
 		double m1 = 2.0*l - m2;
@@ -239,7 +240,7 @@ public class Color implements Collection, UL4Instance, UL4Repr, UL4GetItem, UL4D
 		double r = _v(m1, m2, h+1./3.);
 		double g = _v(m1, m2, h);
 		double b = _v(m1, m2, h-1./3.);
-		return new Color((int)(255.*r), (int)(255.*g), (int)(255.*b), (int)(255.*a));
+		return new Color((int)(255.*r + 0.5), (int)(255.*g + 0.5), (int)(255.*b + 0.5), (int)(255.*a + 0.5));
 	}
 
 	public static Color fromhls(double h, double l, double s)
@@ -584,11 +585,11 @@ public class Color implements Collection, UL4Instance, UL4Repr, UL4GetItem, UL4D
 			bf /= af;
 		}
 
-		// Scale back to [0, 255]
-		int r = (int)(255*rf);
-		int g = (int)(255*gf);
-		int b = (int)(255*bf);
-		int a = (int)(255*af);
+		// Scale back to [0, 255], rounding half up like the browsers do
+		int r = (int)(255*rf + 0.5);
+		int g = (int)(255*gf + 0.5);
+		int b = (int)(255*bf + 0.5);
+		int a = (int)(255*af + 0.5);
 
 		// create final color
 		return new Color(r, g, b, a);

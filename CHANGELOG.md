@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.205.3 (2026-08-16)
+
+Fixed test `UL4Test.method_withsat`.
+
+
 ## 0.205.2 (2026-08-16)
 
 Color values are now rounded instead of truncated when float color components

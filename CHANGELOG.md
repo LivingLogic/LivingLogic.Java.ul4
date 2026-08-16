@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.205.3 (2026-08-16)
+
+Fixed test `UL4Test.method_withsat`.
+
+
+## 0.205.2 (2026-08-16)
+
+Color values are now rounded instead of truncated when float color components
+are converted to their 8-bit integer values. This affects `Color.fromrgb()`
+(and with it the UL4 function `rgb()`), `Color.fromhsv()`, `Color.fromhls()`
+and `Color.blend()` (i.e. the UL4 color blending operator `%`). Rounding is
+what browsers do for CSS simple alpha compositing, and this makes the Java
+implementation consistent with the Python and Javascript implementations of
+UL4 and with the vSQL implementations for Oracle and Postgres.
+
+
 ## 0.205.1 (2026-03-30)
 
 Fixed the vSQL comparison operators `>`, `>=`, `<` and `>=` to return `null`

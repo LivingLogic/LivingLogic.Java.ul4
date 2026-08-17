@@ -131,10 +131,10 @@ public class VSQLShiftLeftAST extends VSQLBinaryAST
 	//BEGIN RULES (don't remove this comment)
 	private static void addRulesPart1()
 	{
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.BOOL, VSQLDataType.BOOL), List.of("trunc(", 1, " * power(2, ", 2, "))"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.BOOL, VSQLDataType.INT), List.of("trunc(", 1, " * power(2, ", 2, "))"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.INT, VSQLDataType.BOOL), List.of("trunc(", 1, " * power(2, ", 2, "))"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.INT, VSQLDataType.INT), List.of("trunc(", 1, " * power(2, ", 2, "))"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.BOOL, VSQLDataType.BOOL), List.of("trunc(", 1, " * power(2, ", 2, "))"), List.of("trunc(", 1, "::int::bigint * power(2, ", 2, "::int::bigint))::bigint"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.BOOL, VSQLDataType.INT), List.of("trunc(", 1, " * power(2, ", 2, "))"), List.of("trunc(", 1, "::int::bigint * power(2, ", 2, "))::bigint"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.INT, VSQLDataType.BOOL), List.of("trunc(", 1, " * power(2, ", 2, "))"), List.of("trunc(", 1, " * power(2, ", 2, "::int::bigint))::bigint"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.INT, VSQLDataType.INT), List.of("trunc(", 1, " * power(2, ", 2, "))"), List.of("trunc(", 1, " * power(2, ", 2, "))::bigint"));
 	}
 
 	static

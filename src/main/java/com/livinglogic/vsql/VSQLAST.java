@@ -1063,9 +1063,9 @@ public abstract class VSQLAST implements UL4Instance, UL4ONSerializable, UL4Repr
 		return getTypeUL4().getUL4ONName();
 	}
 
-	protected static void addRule(Map rules, VSQLDataType resultType, List<Object> signature, List<Object> source)
+	protected static void addRule(Map rules, VSQLDataType resultType, List<Object> signature, List<Object> oracleSource, List<Object> postgresSource)
 	{
-		rules.put(signature, new VSQLRule(resultType, signature, source));
+		rules.put(signature, new VSQLRule(resultType, signature, oracleSource, postgresSource));
 	}
 
 	// @Override

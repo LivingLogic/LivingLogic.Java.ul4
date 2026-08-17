@@ -131,15 +131,15 @@ public class VSQLBitAndAST extends VSQLBinaryAST
 	//BEGIN RULES (don't remove this comment)
 	private static void addRulesPart1()
 	{
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.BOOL, VSQLDataType.BOOL), List.of("bitand(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.BOOL, VSQLDataType.INT), List.of("bitand(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.INT, VSQLDataType.BOOL), List.of("bitand(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.INT, VSQLDataType.INT), List.of("bitand(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.INTSET, List.of(VSQLDataType.INTSET, VSQLDataType.INTSET), List.of("vsqlimpl_pkg.bitand_intset(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.NUMBERSET, List.of(VSQLDataType.NUMBERSET, VSQLDataType.NUMBERSET), List.of("vsqlimpl_pkg.bitand_numberset(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.STRSET, List.of(VSQLDataType.STRSET, VSQLDataType.STRSET), List.of("vsqlimpl_pkg.bitand_strset(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.DATESET, List.of(VSQLDataType.DATESET, VSQLDataType.DATESET), List.of("vsqlimpl_pkg.bitand_datetimeset(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.DATETIMESET, List.of(VSQLDataType.DATETIMESET, VSQLDataType.DATETIMESET), List.of("vsqlimpl_pkg.bitand_datetimeset(", 1, ", ", 2, ")"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.BOOL, VSQLDataType.BOOL), List.of("bitand(", 1, ", ", 2, ")"), List.of("(", 1, "::int::bigint & ", 2, "::int::bigint)"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.BOOL, VSQLDataType.INT), List.of("bitand(", 1, ", ", 2, ")"), List.of("(", 1, "::int::bigint & ", 2, ")"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.INT, VSQLDataType.BOOL), List.of("bitand(", 1, ", ", 2, ")"), List.of("(", 1, " & ", 2, "::int::bigint)"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.INT, VSQLDataType.INT), List.of("bitand(", 1, ", ", 2, ")"), List.of("(", 1, " & ", 2, ")"));
+		addRule(rules, VSQLDataType.INTSET, List.of(VSQLDataType.INTSET, VSQLDataType.INTSET), List.of("vsqlimpl_pkg.bitand_intset(", 1, ", ", 2, ")"), List.of("vsqlimpl.bitand_intset(", 1, ", ", 2, ")"));
+		addRule(rules, VSQLDataType.NUMBERSET, List.of(VSQLDataType.NUMBERSET, VSQLDataType.NUMBERSET), List.of("vsqlimpl_pkg.bitand_numberset(", 1, ", ", 2, ")"), List.of("vsqlimpl.bitand_numberset(", 1, ", ", 2, ")"));
+		addRule(rules, VSQLDataType.STRSET, List.of(VSQLDataType.STRSET, VSQLDataType.STRSET), List.of("vsqlimpl_pkg.bitand_strset(", 1, ", ", 2, ")"), List.of("vsqlimpl.bitand_strset(", 1, ", ", 2, ")"));
+		addRule(rules, VSQLDataType.DATESET, List.of(VSQLDataType.DATESET, VSQLDataType.DATESET), List.of("vsqlimpl_pkg.bitand_datetimeset(", 1, ", ", 2, ")"), List.of("vsqlimpl.bitand_dateset(", 1, ", ", 2, ")"));
+		addRule(rules, VSQLDataType.DATETIMESET, List.of(VSQLDataType.DATETIMESET, VSQLDataType.DATETIMESET), List.of("vsqlimpl_pkg.bitand_datetimeset(", 1, ", ", 2, ")"), List.of("vsqlimpl.bitand_datetimeset(", 1, ", ", 2, ")"));
 	}
 
 	static

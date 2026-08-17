@@ -131,10 +131,10 @@ public class VSQLBitXOrAST extends VSQLBinaryAST
 	//BEGIN RULES (don't remove this comment)
 	private static void addRulesPart1()
 	{
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.BOOL, VSQLDataType.BOOL), List.of("vsqlimpl_pkg.bitxor_int(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.BOOL, VSQLDataType.INT), List.of("vsqlimpl_pkg.bitxor_int(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.INT, VSQLDataType.BOOL), List.of("vsqlimpl_pkg.bitxor_int(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.INT, VSQLDataType.INT), List.of("vsqlimpl_pkg.bitxor_int(", 1, ", ", 2, ")"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.BOOL, VSQLDataType.BOOL), List.of("vsqlimpl_pkg.bitxor_int(", 1, ", ", 2, ")"), List.of("(", 1, "::int::bigint # ", 2, "::int::bigint)"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.BOOL, VSQLDataType.INT), List.of("vsqlimpl_pkg.bitxor_int(", 1, ", ", 2, ")"), List.of("(", 1, "::int::bigint # ", 2, ")"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.INT, VSQLDataType.BOOL), List.of("vsqlimpl_pkg.bitxor_int(", 1, ", ", 2, ")"), List.of("(", 1, " # ", 2, "::int::bigint)"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.INT, VSQLDataType.INT), List.of("vsqlimpl_pkg.bitxor_int(", 1, ", ", 2, ")"), List.of("(", 1, " # ", 2, ")"));
 	}
 
 	static

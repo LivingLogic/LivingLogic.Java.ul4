@@ -80,7 +80,7 @@ public class VSQLDateTimeAST extends VSQLConstAST
 	@Override
 	protected void makeSQLSource(StringBuilder buffer, VSQLQuery query)
 	{
-		buffer.append(formatterSQL.format(value));
+		buffer.append(query.getDateTimeSQLSource(value));
 	}
 
 	@Override
@@ -97,7 +97,6 @@ public class VSQLDateTimeAST extends VSQLConstAST
 
 	private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
 	private static DateTimeFormatter formatterRepr = DateTimeFormatter.ofPattern("@(yyyy-MM-dd'T'HH:mm:ss)", Locale.US);
-	private static DateTimeFormatter formatterSQL = DateTimeFormatter.ofPattern("'to_date('''yyyy-MM-dd HH:mm:ss'', '''YYYY-MM-DD HH24:MI:SS'')'", Locale.US);
 
 	public String getNodeValue()
 	{

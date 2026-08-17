@@ -125,24 +125,24 @@ public class VSQLItemAST extends VSQLBinaryAST
 	//BEGIN RULES (don't remove this comment)
 	private static void addRulesPart1()
 	{
-		addRule(rules, VSQLDataType.NULL, List.of(VSQLDataType.NULLLIST, VSQLDataType.BOOL), List.of("null"));
-		addRule(rules, VSQLDataType.NULL, List.of(VSQLDataType.NULLLIST, VSQLDataType.INT), List.of("null"));
-		addRule(rules, VSQLDataType.STR, List.of(VSQLDataType.STR, VSQLDataType.BOOL), List.of("vsqlimpl_pkg.item_str(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.STR, List.of(VSQLDataType.STR, VSQLDataType.INT), List.of("vsqlimpl_pkg.item_str(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.STR, List.of(VSQLDataType.CLOB, VSQLDataType.BOOL), List.of("vsqlimpl_pkg.item_clob(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.STR, List.of(VSQLDataType.CLOB, VSQLDataType.INT), List.of("vsqlimpl_pkg.item_clob(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.STR, List.of(VSQLDataType.STRLIST, VSQLDataType.BOOL), List.of("vsqlimpl_pkg.item_strlist(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.STR, List.of(VSQLDataType.STRLIST, VSQLDataType.INT), List.of("vsqlimpl_pkg.item_strlist(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.CLOB, List.of(VSQLDataType.CLOBLIST, VSQLDataType.BOOL), List.of("vsqlimpl_pkg.item_cloblist(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.CLOB, List.of(VSQLDataType.CLOBLIST, VSQLDataType.INT), List.of("vsqlimpl_pkg.item_cloblist(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.INTLIST, VSQLDataType.BOOL), List.of("vsqlimpl_pkg.item_intlist(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.INTLIST, VSQLDataType.INT), List.of("vsqlimpl_pkg.item_intlist(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.NUMBERLIST, VSQLDataType.BOOL), List.of("vsqlimpl_pkg.item_numberlist(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.NUMBERLIST, VSQLDataType.INT), List.of("vsqlimpl_pkg.item_numberlist(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.DATE, List.of(VSQLDataType.DATELIST, VSQLDataType.BOOL), List.of("vsqlimpl_pkg.item_datetimelist(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.DATE, List.of(VSQLDataType.DATELIST, VSQLDataType.INT), List.of("vsqlimpl_pkg.item_datetimelist(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.DATETIME, List.of(VSQLDataType.DATETIMELIST, VSQLDataType.BOOL), List.of("vsqlimpl_pkg.item_datetimelist(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.DATETIME, List.of(VSQLDataType.DATETIMELIST, VSQLDataType.INT), List.of("vsqlimpl_pkg.item_datetimelist(", 1, ", ", 2, ")"));
+		addRule(rules, VSQLDataType.NULL, List.of(VSQLDataType.NULLLIST, VSQLDataType.BOOL), List.of("null"), List.of("null"));
+		addRule(rules, VSQLDataType.NULL, List.of(VSQLDataType.NULLLIST, VSQLDataType.INT), List.of("null"), List.of("null"));
+		addRule(rules, VSQLDataType.STR, List.of(VSQLDataType.STR, VSQLDataType.BOOL), List.of("vsqlimpl_pkg.item_str(", 1, ", ", 2, ")"), List.of("vsqlimpl.item_str(", 1, ", ", 2, "::int::bigint)"));
+		addRule(rules, VSQLDataType.STR, List.of(VSQLDataType.CLOB, VSQLDataType.BOOL), List.of("vsqlimpl_pkg.item_clob(", 1, ", ", 2, ")"), List.of("vsqlimpl.item_clob(", 1, ", ", 2, "::int::bigint)"));
+		addRule(rules, VSQLDataType.STR, List.of(VSQLDataType.STRLIST, VSQLDataType.BOOL), List.of("vsqlimpl_pkg.item_strlist(", 1, ", ", 2, ")"), List.of("vsqlimpl.item_strlist(", 1, ", ", 2, "::int::bigint)"));
+		addRule(rules, VSQLDataType.STR, List.of(VSQLDataType.STR, VSQLDataType.INT), List.of("vsqlimpl_pkg.item_str(", 1, ", ", 2, ")"), List.of("vsqlimpl.item_str(", 1, ", ", 2, ")"));
+		addRule(rules, VSQLDataType.STR, List.of(VSQLDataType.CLOB, VSQLDataType.INT), List.of("vsqlimpl_pkg.item_clob(", 1, ", ", 2, ")"), List.of("vsqlimpl.item_clob(", 1, ", ", 2, ")"));
+		addRule(rules, VSQLDataType.STR, List.of(VSQLDataType.STRLIST, VSQLDataType.INT), List.of("vsqlimpl_pkg.item_strlist(", 1, ", ", 2, ")"), List.of("vsqlimpl.item_strlist(", 1, ", ", 2, ")"));
+		addRule(rules, VSQLDataType.CLOB, List.of(VSQLDataType.CLOBLIST, VSQLDataType.BOOL), List.of("vsqlimpl_pkg.item_cloblist(", 1, ", ", 2, ")"), List.of("vsqlimpl.item_cloblist(", 1, ", ", 2, "::int::bigint)"));
+		addRule(rules, VSQLDataType.CLOB, List.of(VSQLDataType.CLOBLIST, VSQLDataType.INT), List.of("vsqlimpl_pkg.item_cloblist(", 1, ", ", 2, ")"), List.of("vsqlimpl.item_cloblist(", 1, ", ", 2, ")"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.INTLIST, VSQLDataType.BOOL), List.of("vsqlimpl_pkg.item_intlist(", 1, ", ", 2, ")"), List.of("vsqlimpl.item_intlist(", 1, ", ", 2, "::int::bigint)"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.INTLIST, VSQLDataType.INT), List.of("vsqlimpl_pkg.item_intlist(", 1, ", ", 2, ")"), List.of("vsqlimpl.item_intlist(", 1, ", ", 2, ")"));
+		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.NUMBERLIST, VSQLDataType.BOOL), List.of("vsqlimpl_pkg.item_numberlist(", 1, ", ", 2, ")"), List.of("vsqlimpl.item_numberlist(", 1, ", ", 2, "::int::bigint)"));
+		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.NUMBERLIST, VSQLDataType.INT), List.of("vsqlimpl_pkg.item_numberlist(", 1, ", ", 2, ")"), List.of("vsqlimpl.item_numberlist(", 1, ", ", 2, ")"));
+		addRule(rules, VSQLDataType.DATE, List.of(VSQLDataType.DATELIST, VSQLDataType.BOOL), List.of("vsqlimpl_pkg.item_datetimelist(", 1, ", ", 2, ")"), List.of("vsqlimpl.item_datelist(", 1, ", ", 2, "::int::bigint)"));
+		addRule(rules, VSQLDataType.DATE, List.of(VSQLDataType.DATELIST, VSQLDataType.INT), List.of("vsqlimpl_pkg.item_datetimelist(", 1, ", ", 2, ")"), List.of("vsqlimpl.item_datelist(", 1, ", ", 2, ")"));
+		addRule(rules, VSQLDataType.DATETIME, List.of(VSQLDataType.DATETIMELIST, VSQLDataType.BOOL), List.of("vsqlimpl_pkg.item_datetimelist(", 1, ", ", 2, ")"), List.of("vsqlimpl.item_datetimelist(", 1, ", ", 2, "::int::bigint)"));
+		addRule(rules, VSQLDataType.DATETIME, List.of(VSQLDataType.DATETIMELIST, VSQLDataType.INT), List.of("vsqlimpl_pkg.item_datetimelist(", 1, ", ", 2, ")"), List.of("vsqlimpl.item_datetimelist(", 1, ", ", 2, ")"));
 	}
 
 	static

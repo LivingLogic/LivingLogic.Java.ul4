@@ -137,27 +137,27 @@ public class VSQLSubAST extends VSQLBinaryAST
 	//BEGIN RULES (don't remove this comment)
 	private static void addRulesPart1()
 	{
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.BOOL, VSQLDataType.BOOL), List.of("(", 1, " - ", 2, ")"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.BOOL, VSQLDataType.INT), List.of("(", 1, " - ", 2, ")"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.INT, VSQLDataType.BOOL), List.of("(", 1, " - ", 2, ")"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.INT, VSQLDataType.INT), List.of("(", 1, " - ", 2, ")"));
-		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.BOOL, VSQLDataType.NUMBER), List.of("(", 1, " - ", 2, ")"));
-		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.INT, VSQLDataType.NUMBER), List.of("(", 1, " - ", 2, ")"));
-		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.NUMBER, VSQLDataType.BOOL), List.of("(", 1, " - ", 2, ")"));
-		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.NUMBER, VSQLDataType.INT), List.of("(", 1, " - ", 2, ")"));
-		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.NUMBER, VSQLDataType.NUMBER), List.of("(", 1, " - ", 2, ")"));
-		addRule(rules, VSQLDataType.DATE, List.of(VSQLDataType.DATE, VSQLDataType.DATEDELTA), List.of("(", 1, " - ", 2, ")"));
-		addRule(rules, VSQLDataType.DATEDELTA, List.of(VSQLDataType.DATE, VSQLDataType.DATE), List.of("(", 1, " - ", 2, ")"));
-		addRule(rules, VSQLDataType.DATETIMEDELTA, List.of(VSQLDataType.DATETIME, VSQLDataType.DATETIME), List.of("(", 1, " - ", 2, ")"));
-		addRule(rules, VSQLDataType.DATE, List.of(VSQLDataType.DATE, VSQLDataType.MONTHDELTA), List.of("vsqlimpl_pkg.add_datetime_months(", 1, ", -", 2, ")"));
-		addRule(rules, VSQLDataType.DATETIME, List.of(VSQLDataType.DATETIME, VSQLDataType.MONTHDELTA), List.of("vsqlimpl_pkg.add_datetime_months(", 1, ", -", 2, ")"));
-		addRule(rules, VSQLDataType.DATETIME, List.of(VSQLDataType.DATETIME, VSQLDataType.DATEDELTA), List.of("(", 1, " - ", 2, ")"));
-		addRule(rules, VSQLDataType.DATETIME, List.of(VSQLDataType.DATETIME, VSQLDataType.DATETIMEDELTA), List.of("(", 1, " - ", 2, ")"));
-		addRule(rules, VSQLDataType.DATEDELTA, List.of(VSQLDataType.DATEDELTA, VSQLDataType.DATEDELTA), List.of("(", 1, " - ", 2, ")"));
-		addRule(rules, VSQLDataType.MONTHDELTA, List.of(VSQLDataType.MONTHDELTA, VSQLDataType.MONTHDELTA), List.of("(", 1, " - ", 2, ")"));
-		addRule(rules, VSQLDataType.DATETIMEDELTA, List.of(VSQLDataType.DATEDELTA, VSQLDataType.DATETIMEDELTA), List.of("(", 1, " - ", 2, ")"));
-		addRule(rules, VSQLDataType.DATETIMEDELTA, List.of(VSQLDataType.DATETIMEDELTA, VSQLDataType.DATEDELTA), List.of("(", 1, " - ", 2, ")"));
-		addRule(rules, VSQLDataType.DATETIMEDELTA, List.of(VSQLDataType.DATETIMEDELTA, VSQLDataType.DATETIMEDELTA), List.of("(", 1, " - ", 2, ")"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.BOOL, VSQLDataType.BOOL), List.of("(", 1, " - ", 2, ")"), List.of("(", 1, "::int::bigint - ", 2, "::int::bigint)"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.BOOL, VSQLDataType.INT), List.of("(", 1, " - ", 2, ")"), List.of("(", 1, "::int::bigint - ", 2, ")"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.INT, VSQLDataType.BOOL), List.of("(", 1, " - ", 2, ")"), List.of("(", 1, " - ", 2, "::int::bigint)"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.INT, VSQLDataType.INT), List.of("(", 1, " - ", 2, ")"), List.of("(", 1, " - ", 2, ")"));
+		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.BOOL, VSQLDataType.NUMBER), List.of("(", 1, " - ", 2, ")"), List.of("(vsqlimpl.number_bool(", 1, ") - vsqlimpl.number_number(", 2, "))"));
+		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.INT, VSQLDataType.NUMBER), List.of("(", 1, " - ", 2, ")"), List.of("(vsqlimpl.number_int(", 1, ") - vsqlimpl.number_number(", 2, "))"));
+		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.NUMBER, VSQLDataType.BOOL), List.of("(", 1, " - ", 2, ")"), List.of("(vsqlimpl.number_number(", 1, ") - vsqlimpl.number_bool(", 2, "))"));
+		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.NUMBER, VSQLDataType.INT), List.of("(", 1, " - ", 2, ")"), List.of("(vsqlimpl.number_number(", 1, ") - vsqlimpl.number_int(", 2, "))"));
+		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.NUMBER, VSQLDataType.NUMBER), List.of("(", 1, " - ", 2, ")"), List.of("(vsqlimpl.number_number(", 1, ") - vsqlimpl.number_number(", 2, "))"));
+		addRule(rules, VSQLDataType.DATE, List.of(VSQLDataType.DATE, VSQLDataType.DATEDELTA), List.of("(", 1, " - ", 2, ")"), List.of("(", 1, " - ", 2, ")::date"));
+		addRule(rules, VSQLDataType.DATEDELTA, List.of(VSQLDataType.DATE, VSQLDataType.DATE), List.of("(", 1, " - ", 2, ")"), List.of("((", 1, " - ", 2, ") * interval '1 day')"));
+		addRule(rules, VSQLDataType.DATETIMEDELTA, List.of(VSQLDataType.DATETIME, VSQLDataType.DATETIME), List.of("(", 1, " - ", 2, ")"), List.of("(", 1, " - ", 2, ")"));
+		addRule(rules, VSQLDataType.DATE, List.of(VSQLDataType.DATE, VSQLDataType.MONTHDELTA), List.of("vsqlimpl_pkg.add_datetime_months(", 1, ", -", 2, ")"), List.of("vsqlimpl.add_date_months(", 1, ", -", 2, ")"));
+		addRule(rules, VSQLDataType.DATETIME, List.of(VSQLDataType.DATETIME, VSQLDataType.MONTHDELTA), List.of("vsqlimpl_pkg.add_datetime_months(", 1, ", -", 2, ")"), List.of("vsqlimpl.add_datetime_months(", 1, ", -", 2, ")"));
+		addRule(rules, VSQLDataType.DATETIME, List.of(VSQLDataType.DATETIME, VSQLDataType.DATEDELTA), List.of("(", 1, " - ", 2, ")"), List.of("(", 1, " - ", 2, ")"));
+		addRule(rules, VSQLDataType.DATETIME, List.of(VSQLDataType.DATETIME, VSQLDataType.DATETIMEDELTA), List.of("(", 1, " - ", 2, ")"), List.of("(", 1, " - ", 2, ")"));
+		addRule(rules, VSQLDataType.DATEDELTA, List.of(VSQLDataType.DATEDELTA, VSQLDataType.DATEDELTA), List.of("(", 1, " - ", 2, ")"), List.of("(", 1, " - ", 2, ")"));
+		addRule(rules, VSQLDataType.MONTHDELTA, List.of(VSQLDataType.MONTHDELTA, VSQLDataType.MONTHDELTA), List.of("(", 1, " - ", 2, ")"), List.of("(", 1, " - ", 2, ")"));
+		addRule(rules, VSQLDataType.DATETIMEDELTA, List.of(VSQLDataType.DATEDELTA, VSQLDataType.DATETIMEDELTA), List.of("(", 1, " - ", 2, ")"), List.of("(", 1, " - ", 2, ")"));
+		addRule(rules, VSQLDataType.DATETIMEDELTA, List.of(VSQLDataType.DATETIMEDELTA, VSQLDataType.DATEDELTA), List.of("(", 1, " - ", 2, ")"), List.of("(", 1, " - ", 2, ")"));
+		addRule(rules, VSQLDataType.DATETIMEDELTA, List.of(VSQLDataType.DATETIMEDELTA, VSQLDataType.DATETIMEDELTA), List.of("(", 1, " - ", 2, ")"), List.of("(", 1, " - ", 2, ")"));
 	}
 
 	static

@@ -211,33 +211,33 @@ public class VSQLAttrAST extends VSQLAST
 	//BEGIN RULES (don't remove this comment)
 	private static void addRulesPart1()
 	{
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.DATE, "year"), List.of("extract(year from ", 1, ")"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.DATETIME, "year"), List.of("extract(year from ", 1, ")"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.DATE, "month"), List.of("extract(month from ", 1, ")"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.DATETIME, "month"), List.of("extract(month from ", 1, ")"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.DATE, "day"), List.of("extract(day from ", 1, ")"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.DATETIME, "day"), List.of("extract(day from ", 1, ")"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.DATETIME, "hour"), List.of("to_number(to_char(", 1, ", 'HH24'))"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.DATETIME, "minute"), List.of("to_number(to_char(", 1, ", 'MI'))"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.DATETIME, "second"), List.of("to_number(to_char(", 1, ", 'SS'))"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.DATE, "weekday"), List.of("vsqlimpl_pkg.attr_date_weekday(", 1, ")"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.DATETIME, "weekday"), List.of("vsqlimpl_pkg.attr_date_weekday(", 1, ")"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.DATE, "yearday"), List.of("to_number(to_char(", 1, ", 'DDD'))"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.DATETIME, "yearday"), List.of("to_number(to_char(", 1, ", 'DDD'))"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.DATEDELTA, "days"), List.of(1));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.DATETIMEDELTA, "days"), List.of("trunc(", 1, ")"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.DATETIMEDELTA, "seconds"), List.of("trunc(mod(", 1, ", 1) * 86400 + 0.5)"));
-		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.DATETIMEDELTA, "total_days"), List.of(1));
-		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.DATETIMEDELTA, "total_hours"), List.of("(", 1, " * 24)"));
-		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.DATETIMEDELTA, "total_minutes"), List.of("(", 1, " * 1440)"));
-		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.DATETIMEDELTA, "total_seconds"), List.of("(", 1, " * 86400)"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.COLOR, "r"), List.of("vsqlimpl_pkg.attr_color_r(", 1, ")"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.COLOR, "g"), List.of("vsqlimpl_pkg.attr_color_g(", 1, ")"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.COLOR, "b"), List.of("vsqlimpl_pkg.attr_color_b(", 1, ")"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.COLOR, "a"), List.of("vsqlimpl_pkg.attr_color_a(", 1, ")"));
-		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.GEO, "lat"), List.of("vsqlimpl_pkg.attr_geo_lat(", 1, ")"));
-		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.GEO, "long"), List.of("vsqlimpl_pkg.attr_geo_long(", 1, ")"));
-		addRule(rules, VSQLDataType.STR, List.of(VSQLDataType.GEO, "info"), List.of("vsqlimpl_pkg.attr_geo_info(", 1, ")"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.DATE, "year"), List.of("extract(year from ", 1, ")"), List.of("extract(year from ", 1, ")::bigint"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.DATETIME, "year"), List.of("extract(year from ", 1, ")"), List.of("extract(year from ", 1, ")::bigint"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.DATE, "month"), List.of("extract(month from ", 1, ")"), List.of("extract(month from ", 1, ")::bigint"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.DATETIME, "month"), List.of("extract(month from ", 1, ")"), List.of("extract(month from ", 1, ")::bigint"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.DATE, "day"), List.of("extract(day from ", 1, ")"), List.of("extract(day from ", 1, ")::bigint"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.DATETIME, "day"), List.of("extract(day from ", 1, ")"), List.of("extract(day from ", 1, ")::bigint"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.DATETIME, "hour"), List.of("to_number(to_char(", 1, ", 'HH24'))"), List.of("extract(hour from ", 1, ")::bigint"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.DATETIME, "minute"), List.of("to_number(to_char(", 1, ", 'MI'))"), List.of("extract(minute from ", 1, ")::bigint"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.DATETIME, "second"), List.of("to_number(to_char(", 1, ", 'SS'))"), List.of("trunc(extract(second from ", 1, "))::bigint"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.DATE, "weekday"), List.of("vsqlimpl_pkg.attr_date_weekday(", 1, ")"), List.of("(extract(isodow from ", 1, ")::bigint - 1)"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.DATETIME, "weekday"), List.of("vsqlimpl_pkg.attr_date_weekday(", 1, ")"), List.of("(extract(isodow from ", 1, ")::bigint - 1)"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.DATE, "yearday"), List.of("to_number(to_char(", 1, ", 'DDD'))"), List.of("extract(doy from ", 1, ")::bigint"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.DATETIME, "yearday"), List.of("to_number(to_char(", 1, ", 'DDD'))"), List.of("extract(doy from ", 1, ")::bigint"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.DATEDELTA, "days"), List.of(1), List.of("extract(day from ", 1, ")::bigint"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.DATETIMEDELTA, "days"), List.of("trunc(", 1, ")"), List.of("trunc(extract(epoch from ", 1, ") / 86400)::bigint"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.DATETIMEDELTA, "seconds"), List.of("trunc(mod(", 1, ", 1) * 86400 + 0.5)"), List.of("trunc(mod(extract(epoch from ", 1, "), 86400) + 0.5)::bigint"));
+		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.DATETIMEDELTA, "total_days"), List.of(1), List.of("(extract(epoch from ", 1, ") / 86400)"));
+		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.DATETIMEDELTA, "total_hours"), List.of("(", 1, " * 24)"), List.of("(extract(epoch from ", 1, ") / 3600)"));
+		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.DATETIMEDELTA, "total_minutes"), List.of("(", 1, " * 1440)"), List.of("(extract(epoch from ", 1, ") / 60)"));
+		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.DATETIMEDELTA, "total_seconds"), List.of("(", 1, " * 86400)"), List.of("extract(epoch from ", 1, ")"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.COLOR, "r"), List.of("vsqlimpl_pkg.attr_color_r(", 1, ")"), List.of("vsqlimpl.attr_color_r(", 1, ")"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.COLOR, "g"), List.of("vsqlimpl_pkg.attr_color_g(", 1, ")"), List.of("vsqlimpl.attr_color_g(", 1, ")"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.COLOR, "b"), List.of("vsqlimpl_pkg.attr_color_b(", 1, ")"), List.of("vsqlimpl.attr_color_b(", 1, ")"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.COLOR, "a"), List.of("vsqlimpl_pkg.attr_color_a(", 1, ")"), List.of("vsqlimpl.attr_color_a(", 1, ")"));
+		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.GEO, "lat"), List.of("vsqlimpl_pkg.attr_geo_lat(", 1, ")"), List.of("vsqlimpl.attr_geo_lat(", 1, ")"));
+		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.GEO, "long"), List.of("vsqlimpl_pkg.attr_geo_long(", 1, ")"), List.of("vsqlimpl.attr_geo_long(", 1, ")"));
+		addRule(rules, VSQLDataType.STR, List.of(VSQLDataType.GEO, "info"), List.of("vsqlimpl_pkg.attr_geo_info(", 1, ")"), List.of("vsqlimpl.attr_geo_info(", 1, ")"));
 	}
 
 	static

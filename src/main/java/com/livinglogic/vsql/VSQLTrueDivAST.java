@@ -137,18 +137,18 @@ public class VSQLTrueDivAST extends VSQLBinaryAST
 	//BEGIN RULES (don't remove this comment)
 	private static void addRulesPart1()
 	{
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.BOOL, VSQLDataType.BOOL), List.of("(", 1, " / ", 2, ")"));
-		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.BOOL, VSQLDataType.INT), List.of("(", 1, " / ", 2, ")"));
-		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.BOOL, VSQLDataType.NUMBER), List.of("(", 1, " / ", 2, ")"));
-		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.INT, VSQLDataType.BOOL), List.of("(", 1, " / ", 2, ")"));
-		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.INT, VSQLDataType.INT), List.of("(", 1, " / ", 2, ")"));
-		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.INT, VSQLDataType.NUMBER), List.of("(", 1, " / ", 2, ")"));
-		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.NUMBER, VSQLDataType.BOOL), List.of("(", 1, " / ", 2, ")"));
-		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.NUMBER, VSQLDataType.INT), List.of("(", 1, " / ", 2, ")"));
-		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.NUMBER, VSQLDataType.NUMBER), List.of("(", 1, " / ", 2, ")"));
-		addRule(rules, VSQLDataType.DATETIMEDELTA, List.of(VSQLDataType.DATETIMEDELTA, VSQLDataType.BOOL), List.of("(", 1, " / ", 2, ")"));
-		addRule(rules, VSQLDataType.DATETIMEDELTA, List.of(VSQLDataType.DATETIMEDELTA, VSQLDataType.INT), List.of("(", 1, " / ", 2, ")"));
-		addRule(rules, VSQLDataType.DATETIMEDELTA, List.of(VSQLDataType.DATETIMEDELTA, VSQLDataType.NUMBER), List.of("(", 1, " / ", 2, ")"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.BOOL, VSQLDataType.BOOL), List.of("(", 1, " / ", 2, ")"), List.of("(", 1, "::int::bigint / ", 2, "::int::bigint)"));
+		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.BOOL, VSQLDataType.INT), List.of("(", 1, " / ", 2, ")"), List.of("(vsqlimpl.number_bool(", 1, ") / vsqlimpl.number_int(", 2, "))"));
+		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.BOOL, VSQLDataType.NUMBER), List.of("(", 1, " / ", 2, ")"), List.of("(vsqlimpl.number_bool(", 1, ") / vsqlimpl.number_number(", 2, "))"));
+		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.INT, VSQLDataType.BOOL), List.of("(", 1, " / ", 2, ")"), List.of("(vsqlimpl.number_int(", 1, ") / vsqlimpl.number_bool(", 2, "))"));
+		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.INT, VSQLDataType.INT), List.of("(", 1, " / ", 2, ")"), List.of("(vsqlimpl.number_int(", 1, ") / vsqlimpl.number_int(", 2, "))"));
+		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.INT, VSQLDataType.NUMBER), List.of("(", 1, " / ", 2, ")"), List.of("(vsqlimpl.number_int(", 1, ") / vsqlimpl.number_number(", 2, "))"));
+		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.NUMBER, VSQLDataType.BOOL), List.of("(", 1, " / ", 2, ")"), List.of("(vsqlimpl.number_number(", 1, ") / vsqlimpl.number_bool(", 2, "))"));
+		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.NUMBER, VSQLDataType.INT), List.of("(", 1, " / ", 2, ")"), List.of("(vsqlimpl.number_number(", 1, ") / vsqlimpl.number_int(", 2, "))"));
+		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.NUMBER, VSQLDataType.NUMBER), List.of("(", 1, " / ", 2, ")"), List.of("(vsqlimpl.number_number(", 1, ") / vsqlimpl.number_number(", 2, "))"));
+		addRule(rules, VSQLDataType.DATETIMEDELTA, List.of(VSQLDataType.DATETIMEDELTA, VSQLDataType.BOOL), List.of("(", 1, " / ", 2, ")"), List.of("(", 1, " / vsqlimpl.number_bool(", 2, "))"));
+		addRule(rules, VSQLDataType.DATETIMEDELTA, List.of(VSQLDataType.DATETIMEDELTA, VSQLDataType.INT), List.of("(", 1, " / ", 2, ")"), List.of("(", 1, " / vsqlimpl.number_int(", 2, "))"));
+		addRule(rules, VSQLDataType.DATETIMEDELTA, List.of(VSQLDataType.DATETIMEDELTA, VSQLDataType.NUMBER), List.of("(", 1, " / ", 2, ")"), List.of("(", 1, " / vsqlimpl.number_number(", 2, "))"));
 	}
 
 	static

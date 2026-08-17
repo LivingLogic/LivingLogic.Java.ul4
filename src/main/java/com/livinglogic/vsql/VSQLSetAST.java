@@ -133,14 +133,8 @@ public class VSQLSetAST extends VSQLAST
 			buffer.append(items.size() != 0 ? "1" : "0");
 		else
 		{
-			if (dataType == VSQLDataType.INTSET)
-				buffer.append("vsqlimpl_pkg.set_intlist(integers(");
-			else if (dataType == VSQLDataType.NUMBERSET)
-				buffer.append("vsqlimpl_pkg.set_numberlist(numbers(");
-			else if (dataType == VSQLDataType.STRSET)
-				buffer.append("vsqlimpl_pkg.set_strlist(varchars(");
-			else
-				buffer.append("vsqlimpl_pkg.set_datetimelist(dates(");
+			VSQLQuery.SeqSQL seqSQL = query.getSeqSQL(dataType);
+			buffer.append(seqSQL.prefix());
 			boolean first = true;
 
 			for (VSQLAST item : items)
@@ -151,7 +145,7 @@ public class VSQLSetAST extends VSQLAST
 					buffer.append(", ");
 				item.makeSQLSource(buffer, query);
 			}
-			buffer.append("))");
+			buffer.append(seqSQL.suffix());
 		}
 	}
 

@@ -13,6 +13,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Collections;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -28,9 +30,14 @@ import static com.livinglogic.utils.StringUtils.formatMessage;
 /**
 A class to build an SQL query defined via vSQL expressions.
 
+{@code VSQLQuery} itself is abstract: which database the query will be
+executed in (and with that which SQL dialect will be used) is determined
+by the class, so use one of the subclasses {@link OracleVSQLQuery} or
+{@link PostgresVSQLQuery} instead.
+
 @author W. Doerwald
 **/
-public class VSQLQuery
+public abstract class VSQLQuery
 {
 	public static abstract class Expr
 	{
@@ -110,6 +117,11 @@ public class VSQLQuery
 			return comment;
 		}
 
+		public VSQLQuery getQuery()
+		{
+			return VSQLQuery.this;
+		}
+
 		public String getSource()
 		{
 			return expr.getSource();
@@ -132,7 +144,7 @@ public class VSQLQuery
 			VSQLAST finalExpr = expr;
 			if (finalExpr.getDataType() != VSQLDataType.BOOL)
 				finalExpr = VSQLFuncAST.make("bool", finalExpr);
-			return addComment(finalExpr.getSQLSource(VSQLQuery.this) + " = 1", expr.getSource(), comment);
+			return addComment(getConditionSQLSource(finalExpr.getSQLSource(VSQLQuery.this)), expr.getSource(), comment);
 		}
 
 		public Object conform(Object value)
@@ -290,6 +302,8 @@ public class VSQLQuery
 					sqlSource = vsqlExpr.getSQLSource();
 					if (aggregate != VSQLAggregate.GROUP)
 					{
+						if (aggregate == VSQLAggregate.SUM)
+							sqlSource = vsqlExpr.getQuery().getSumOperandSQLSource(sqlSource, vsqlExpr.getExpr().getDataType());
 						sqlSource = aggregate.toString() + "(" + sqlSource + ")";
 					}
 				}
@@ -431,7 +445,7 @@ public class VSQLQuery
 	// in a query we do the join for `a.b` only once.
 	protected Map<String, FromExpr> identifier2Expr;
 
-	public VSQLQuery(String comment, Map<String, VSQLField> vars)
+	protected VSQLQuery(String comment, Map<String, VSQLField> vars)
 	{
 		this.comment = comment;
 		this.vars = vars;
@@ -444,20 +458,84 @@ public class VSQLQuery
 		identifier2Expr = new HashMap<>();
 	}
 
-	public VSQLQuery(String comment)
+	protected VSQLQuery(String comment)
 	{
 		this(comment, new HashMap<>());
 	}
 
-	public VSQLQuery(Map<String, VSQLField> vars)
+	protected VSQLQuery(Map<String, VSQLField> vars)
 	{
 		this(null, vars);
 	}
 
-	public VSQLQuery()
+	protected VSQLQuery()
 	{
 		this(null, new HashMap<>());
 	}
+
+	/**
+	Prefix and suffix for the SQL source of list and set constants.
+	**/
+	public record SeqSQL(String prefix, String suffix)
+	{
+	}
+
+	/**
+	Return the SQL source template of the rule {@code rule} for the SQL
+	dialect of this query.
+
+	This uses double dispatch to select the SQL dialect: {@link OracleVSQLQuery}
+	returns the Oracle version of the source template (via
+	{@link VSQLRule#getOracleSource}) and {@link PostgresVSQLQuery} returns the
+	Postgres version (via {@link VSQLRule#getPostgresSource}).
+	**/
+	protected abstract List<Object> getRuleSource(VSQLRule rule);
+
+	/**
+	Return the SQL source for the {@code BOOL} constant {@code value}.
+	**/
+	public abstract String getBoolSQLSource(boolean value);
+
+	/**
+	Return the SQL source for the {@code DATE} constant {@code value}.
+	**/
+	public abstract String getDateSQLSource(LocalDate value);
+
+	/**
+	Return the SQL source for the {@code DATETIME} constant {@code value}.
+	**/
+	public abstract String getDateTimeSQLSource(LocalDateTime value);
+
+	/**
+	Return prefix and suffix for the SQL source of a list or set constant
+	of type {@code dataType}.
+	**/
+	public abstract SeqSQL getSeqSQL(VSQLDataType dataType);
+
+	/**
+	Turn the SQL source {@code sql} of a {@code BOOL} expression into a
+	real condition that can be used in the "where" clause.
+	**/
+	protected abstract String getConditionSQLSource(String sql);
+
+	/**
+	Return the SQL source for the operand of a {@code sum()} aggregation
+	(Postgres can't sum its native {@code boolean} type, so a vSQL
+	{@code BOOL} value has to be converted to a number first).
+	**/
+	protected abstract String getSumOperandSQLSource(String sql, VSQLDataType dataType);
+
+	/**
+	Return the "from" clause used when the query selects from no tables
+	(or {@code null} if no "from" clause is required).
+	**/
+	protected abstract String getSQLSourceNoFrom(int indentLevel);
+
+	/**
+	Return the offset/limit clauses at the end of the query (or {@code null}
+	if neither {@code offset} nor {@code limit} is set).
+	**/
+	protected abstract String getSQLSourceOffsetLimit(int indentLevel);
 
 	FromExpr register(VSQLFieldRefAST fieldRef)
 	{
@@ -900,28 +978,34 @@ public class VSQLQuery
 		buffer.append("\n");
 
 		// Output "from"
-		indent(buffer, indentLevel);
-		buffer.append("from\n");
-		first = true;
-		for (FromExpr fromExpr : from)
+		if (from.size() > 0)
 		{
-			if (first)
+			indent(buffer, indentLevel);
+			buffer.append("from\n");
+			first = true;
+			for (FromExpr fromExpr : from)
 			{
-				first = false;
+				if (first)
+				{
+					first = false;
+				}
+				else
+				{
+					buffer.append(",\n");
+				}
+				indent(buffer, indentLevel+1);
+				buffer.append(fromExpr.getSQLSource());
 			}
-			else
-			{
-				buffer.append(",\n");
-			}
-			indent(buffer, indentLevel+1);
-			buffer.append(fromExpr.getSQLSource());
+			buffer.append("\n");
 		}
-		if (first)
+		else
 		{
-			indent(buffer, indentLevel+1);
-			buffer.append("dual");
+			String noFrom = getSQLSourceNoFrom(indentLevel);
+			if (noFrom != null)
+			{
+				buffer.append(noFrom);
+			}
 		}
-		buffer.append("\n");
 
 		// Output "where"
 		if (where.size() > 0)
@@ -992,18 +1076,11 @@ public class VSQLQuery
 			buffer.append("\n");
 		}
 
-		// Output "offset ? rows"
-		if (offset >= 0)
+		// Output offset/limit clauses
+		String offsetLimit = getSQLSourceOffsetLimit(indentLevel);
+		if (offsetLimit != null)
 		{
-			indent(buffer, indentLevel);
-			buffer.append("offset ").append(offset).append(" rows\n");
-		}
-
-		// Output "fetch next ? rows only"
-		if (limit >= 0)
-		{
-			indent(buffer, indentLevel);
-			buffer.append("fetch next ").append(limit).append(" rows only\n");
+			buffer.append(offsetLimit);
 		}
 
 		return buffer.toString();

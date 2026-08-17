@@ -131,16 +131,16 @@ public class VSQLModAST extends VSQLBinaryAST
 	//BEGIN RULES (don't remove this comment)
 	private static void addRulesPart1()
 	{
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.BOOL, VSQLDataType.BOOL), List.of("vsqlimpl_pkg.mod_int_int(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.BOOL, VSQLDataType.INT), List.of("vsqlimpl_pkg.mod_int_int(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.INT, VSQLDataType.BOOL), List.of("vsqlimpl_pkg.mod_int_int(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.INT, VSQLDataType.INT), List.of("vsqlimpl_pkg.mod_int_int(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.BOOL, VSQLDataType.NUMBER), List.of("vsqlimpl_pkg.mod_int_number(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.INT, VSQLDataType.NUMBER), List.of("vsqlimpl_pkg.mod_int_number(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.NUMBER, VSQLDataType.BOOL), List.of("vsqlimpl_pkg.mod_number_int(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.NUMBER, VSQLDataType.INT), List.of("vsqlimpl_pkg.mod_number_int(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.NUMBER, VSQLDataType.NUMBER), List.of("vsqlimpl_pkg.mod_number_number(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.COLOR, List.of(VSQLDataType.COLOR, VSQLDataType.COLOR), List.of("vsqlimpl_pkg.mod_color_color(", 1, ", ", 2, ")"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.BOOL, VSQLDataType.BOOL), List.of("vsqlimpl_pkg.mod_int_int(", 1, ", ", 2, ")"), List.of("vsqlimpl.mod_int_int(", 1, "::int::bigint, ", 2, "::int::bigint)"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.BOOL, VSQLDataType.INT), List.of("vsqlimpl_pkg.mod_int_int(", 1, ", ", 2, ")"), List.of("vsqlimpl.mod_int_int(", 1, "::int::bigint, ", 2, ")"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.INT, VSQLDataType.BOOL), List.of("vsqlimpl_pkg.mod_int_int(", 1, ", ", 2, ")"), List.of("vsqlimpl.mod_int_int(", 1, ", ", 2, "::int::bigint)"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.INT, VSQLDataType.INT), List.of("vsqlimpl_pkg.mod_int_int(", 1, ", ", 2, ")"), List.of("vsqlimpl.mod_int_int(", 1, ", ", 2, ")"));
+		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.BOOL, VSQLDataType.NUMBER), List.of("vsqlimpl_pkg.mod_int_number(", 1, ", ", 2, ")"), List.of("vsqlimpl.mod_number_number(vsqlimpl.number_bool(", 1, "), vsqlimpl.number_number(", 2, "))"));
+		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.INT, VSQLDataType.NUMBER), List.of("vsqlimpl_pkg.mod_int_number(", 1, ", ", 2, ")"), List.of("vsqlimpl.mod_number_number(vsqlimpl.number_int(", 1, "), vsqlimpl.number_number(", 2, "))"));
+		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.NUMBER, VSQLDataType.BOOL), List.of("vsqlimpl_pkg.mod_number_int(", 1, ", ", 2, ")"), List.of("vsqlimpl.mod_number_number(vsqlimpl.number_number(", 1, "), vsqlimpl.number_bool(", 2, "))"));
+		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.NUMBER, VSQLDataType.INT), List.of("vsqlimpl_pkg.mod_number_int(", 1, ", ", 2, ")"), List.of("vsqlimpl.mod_number_number(vsqlimpl.number_number(", 1, "), vsqlimpl.number_int(", 2, "))"));
+		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.NUMBER, VSQLDataType.NUMBER), List.of("vsqlimpl_pkg.mod_number_number(", 1, ", ", 2, ")"), List.of("vsqlimpl.mod_number_number(vsqlimpl.number_number(", 1, "), vsqlimpl.number_number(", 2, "))"));
+		addRule(rules, VSQLDataType.COLOR, List.of(VSQLDataType.COLOR, VSQLDataType.COLOR), List.of("vsqlimpl_pkg.mod_color_color(", 1, ", ", 2, ")"), List.of("vsqlimpl.mod_color_color(", 1, ", ", 2, ")"));
 	}
 
 	static

@@ -137,22 +137,22 @@ public class VSQLFloorDivAST extends VSQLBinaryAST
 	//BEGIN RULES (don't remove this comment)
 	private static void addRulesPart1()
 	{
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.BOOL, VSQLDataType.BOOL), List.of("vsqlimpl_pkg.floordiv_int_int(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.BOOL, VSQLDataType.INT), List.of("vsqlimpl_pkg.floordiv_int_int(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.BOOL, VSQLDataType.NUMBER), List.of("vsqlimpl_pkg.floordiv_int_number(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.INT, VSQLDataType.BOOL), List.of("vsqlimpl_pkg.floordiv_int_int(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.INT, VSQLDataType.INT), List.of("vsqlimpl_pkg.floordiv_int_int(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.INT, VSQLDataType.NUMBER), List.of("vsqlimpl_pkg.floordiv_int_number(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.NUMBER, VSQLDataType.BOOL), List.of("vsqlimpl_pkg.floordiv_number_int(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.NUMBER, VSQLDataType.INT), List.of("vsqlimpl_pkg.floordiv_number_int(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.NUMBER, VSQLDataType.NUMBER), List.of("vsqlimpl_pkg.floordiv_number_number(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.DATEDELTA, List.of(VSQLDataType.DATEDELTA, VSQLDataType.BOOL), List.of("vsqlimpl_pkg.floordiv_int_int(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.DATEDELTA, List.of(VSQLDataType.DATEDELTA, VSQLDataType.INT), List.of("vsqlimpl_pkg.floordiv_int_int(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.MONTHDELTA, List.of(VSQLDataType.MONTHDELTA, VSQLDataType.BOOL), List.of("vsqlimpl_pkg.floordiv_int_int(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.MONTHDELTA, List.of(VSQLDataType.MONTHDELTA, VSQLDataType.INT), List.of("vsqlimpl_pkg.floordiv_int_int(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.DATEDELTA, List.of(VSQLDataType.DATETIMEDELTA, VSQLDataType.BOOL), List.of("vsqlimpl_pkg.floordiv_number_int(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.DATEDELTA, List.of(VSQLDataType.DATETIMEDELTA, VSQLDataType.INT), List.of("vsqlimpl_pkg.floordiv_number_int(", 1, ", ", 2, ")"));
-		addRule(rules, VSQLDataType.DATEDELTA, List.of(VSQLDataType.DATETIMEDELTA, VSQLDataType.NUMBER), List.of("vsqlimpl_pkg.floordiv_number_int(", 1, ", ", 2, ")"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.BOOL, VSQLDataType.BOOL), List.of("vsqlimpl_pkg.floordiv_int_int(", 1, ", ", 2, ")"), List.of("floor(vsqlimpl.number_bool(", 1, ") / vsqlimpl.number_bool(", 2, "))::bigint"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.BOOL, VSQLDataType.INT), List.of("vsqlimpl_pkg.floordiv_int_int(", 1, ", ", 2, ")"), List.of("floor(vsqlimpl.number_bool(", 1, ") / vsqlimpl.number_int(", 2, "))::bigint"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.BOOL, VSQLDataType.NUMBER), List.of("vsqlimpl_pkg.floordiv_int_number(", 1, ", ", 2, ")"), List.of("floor(vsqlimpl.number_bool(", 1, ") / vsqlimpl.number_number(", 2, "))::bigint"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.INT, VSQLDataType.BOOL), List.of("vsqlimpl_pkg.floordiv_int_int(", 1, ", ", 2, ")"), List.of("floor(vsqlimpl.number_int(", 1, ") / vsqlimpl.number_bool(", 2, "))::bigint"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.INT, VSQLDataType.INT), List.of("vsqlimpl_pkg.floordiv_int_int(", 1, ", ", 2, ")"), List.of("floor(vsqlimpl.number_int(", 1, ") / vsqlimpl.number_int(", 2, "))::bigint"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.INT, VSQLDataType.NUMBER), List.of("vsqlimpl_pkg.floordiv_int_number(", 1, ", ", 2, ")"), List.of("floor(vsqlimpl.number_int(", 1, ") / vsqlimpl.number_number(", 2, "))::bigint"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.NUMBER, VSQLDataType.BOOL), List.of("vsqlimpl_pkg.floordiv_number_int(", 1, ", ", 2, ")"), List.of("floor(vsqlimpl.number_number(", 1, ") / vsqlimpl.number_bool(", 2, "))::bigint"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.NUMBER, VSQLDataType.INT), List.of("vsqlimpl_pkg.floordiv_number_int(", 1, ", ", 2, ")"), List.of("floor(vsqlimpl.number_number(", 1, ") / vsqlimpl.number_int(", 2, "))::bigint"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.NUMBER, VSQLDataType.NUMBER), List.of("vsqlimpl_pkg.floordiv_number_number(", 1, ", ", 2, ")"), List.of("floor(vsqlimpl.number_number(", 1, ") / vsqlimpl.number_number(", 2, "))::bigint"));
+		addRule(rules, VSQLDataType.DATEDELTA, List.of(VSQLDataType.DATEDELTA, VSQLDataType.BOOL), List.of("vsqlimpl_pkg.floordiv_int_int(", 1, ", ", 2, ")"), List.of("vsqlimpl.floordiv_datedelta_int(", 1, ", ", 2, "::int::bigint)"));
+		addRule(rules, VSQLDataType.MONTHDELTA, List.of(VSQLDataType.MONTHDELTA, VSQLDataType.BOOL), List.of("vsqlimpl_pkg.floordiv_int_int(", 1, ", ", 2, ")"), List.of("vsqlimpl.floordiv_monthdelta_int(", 1, ", ", 2, "::int::bigint)"));
+		addRule(rules, VSQLDataType.DATEDELTA, List.of(VSQLDataType.DATEDELTA, VSQLDataType.INT), List.of("vsqlimpl_pkg.floordiv_int_int(", 1, ", ", 2, ")"), List.of("vsqlimpl.floordiv_datedelta_int(", 1, ", ", 2, ")"));
+		addRule(rules, VSQLDataType.MONTHDELTA, List.of(VSQLDataType.MONTHDELTA, VSQLDataType.INT), List.of("vsqlimpl_pkg.floordiv_int_int(", 1, ", ", 2, ")"), List.of("vsqlimpl.floordiv_monthdelta_int(", 1, ", ", 2, ")"));
+		addRule(rules, VSQLDataType.DATEDELTA, List.of(VSQLDataType.DATETIMEDELTA, VSQLDataType.BOOL), List.of("vsqlimpl_pkg.floordiv_number_int(", 1, ", ", 2, ")"), List.of("vsqlimpl.floordiv_datetimedelta_number(", 1, ", vsqlimpl.number_bool(", 2, "))"));
+		addRule(rules, VSQLDataType.DATEDELTA, List.of(VSQLDataType.DATETIMEDELTA, VSQLDataType.INT), List.of("vsqlimpl_pkg.floordiv_number_int(", 1, ", ", 2, ")"), List.of("vsqlimpl.floordiv_datetimedelta_number(", 1, ", vsqlimpl.number_int(", 2, "))"));
+		addRule(rules, VSQLDataType.DATEDELTA, List.of(VSQLDataType.DATETIMEDELTA, VSQLDataType.NUMBER), List.of("vsqlimpl_pkg.floordiv_number_int(", 1, ", ", 2, ")"), List.of("vsqlimpl.floordiv_datetimedelta_number(", 1, ", vsqlimpl.number_number(", 2, "))"));
 	}
 
 	static

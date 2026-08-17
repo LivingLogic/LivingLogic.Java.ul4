@@ -22,19 +22,30 @@ public class VSQLRule
 {
 	protected VSQLDataType resultType;
 	protected List<Object> signature; // strings (function/method/attribute name) or datatype (type of argument)
-	protected List<Object> source; // strings (literal source) or integer (embed child source)
+	protected List<Object> oracleSource; // strings (literal source) or integer (embed child source)
+	protected List<Object> postgresSource; // strings (literal source) or integer (embed child source)
 
-	public VSQLRule(VSQLDataType resultType, List<Object> signature, List<Object> source)
+	public VSQLRule(VSQLDataType resultType, List<Object> signature, List<Object> oracleSource, List<Object> postgresSource)
 	{
 		this.resultType = resultType;
 		this.signature = signature;
-		this.source = source;
+		this.oracleSource = oracleSource;
+		this.postgresSource = postgresSource;
 	}
 
+	public List<Object> getOracleSource()
+	{
+		return oracleSource;
+	}
+
+	public List<Object> getPostgresSource()
+	{
+		return postgresSource;
+	}
 
 	public void makeSQLSource(StringBuilder buffer, VSQLQuery query, List<VSQLAST> children)
 	{
-		for (Object s : source)
+		for (Object s : query.getRuleSource(this))
 		{
 			if (s instanceof String string)
 			{

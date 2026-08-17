@@ -76,7 +76,7 @@ public class VSQLBoolAST extends VSQLConstAST
 	@Override
 	protected void makeSQLSource(StringBuilder buffer, VSQLQuery query)
 	{
-		buffer.append(value ? "1" : "0");
+		buffer.append(query.getBoolSQLSource(value));
 	}
 
 	@Override

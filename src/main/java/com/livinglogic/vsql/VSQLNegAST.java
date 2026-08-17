@@ -121,12 +121,12 @@ public class VSQLNegAST extends VSQLUnaryAST
 	//BEGIN RULES (don't remove this comment)
 	private static void addRulesPart1()
 	{
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.BOOL), List.of("(-", 1, ")"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.INT), List.of("(-", 1, ")"));
-		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.NUMBER), List.of("(-", 1, ")"));
-		addRule(rules, VSQLDataType.DATEDELTA, List.of(VSQLDataType.DATEDELTA), List.of("(-", 1, ")"));
-		addRule(rules, VSQLDataType.DATETIMEDELTA, List.of(VSQLDataType.DATETIMEDELTA), List.of("(-", 1, ")"));
-		addRule(rules, VSQLDataType.MONTHDELTA, List.of(VSQLDataType.MONTHDELTA), List.of("(-", 1, ")"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.BOOL), List.of("(-", 1, ")"), List.of("(-", 1, "::int::bigint)"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.INT), List.of("(-", 1, ")"), List.of("(-", 1, ")"));
+		addRule(rules, VSQLDataType.NUMBER, List.of(VSQLDataType.NUMBER), List.of("(-", 1, ")"), List.of("(-", 1, ")"));
+		addRule(rules, VSQLDataType.DATEDELTA, List.of(VSQLDataType.DATEDELTA), List.of("(-", 1, ")"), List.of("(-", 1, ")"));
+		addRule(rules, VSQLDataType.DATETIMEDELTA, List.of(VSQLDataType.DATETIMEDELTA), List.of("(-", 1, ")"), List.of("(-", 1, ")"));
+		addRule(rules, VSQLDataType.MONTHDELTA, List.of(VSQLDataType.MONTHDELTA), List.of("(-", 1, ")"), List.of("(-", 1, ")"));
 	}
 
 	static

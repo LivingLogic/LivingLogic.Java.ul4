@@ -121,8 +121,8 @@ public class VSQLBitNotAST extends VSQLUnaryAST
 	//BEGIN RULES (don't remove this comment)
 	private static void addRulesPart1()
 	{
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.BOOL), List.of("(-", 1, " - 1)"));
-		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.INT), List.of("(-", 1, " - 1)"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.BOOL), List.of("(-", 1, " - 1)"), List.of("(-", 1, "::int::bigint - 1)"));
+		addRule(rules, VSQLDataType.INT, List.of(VSQLDataType.INT), List.of("(-", 1, " - 1)"), List.of("(-", 1, " - 1)"));
 	}
 
 	static

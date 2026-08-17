@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.206.0 (2026-08-17)
+
+Added support for generating PostgreSQL code from vSQL expressions (which
+the Python implementation already supports). Each vSQL grammar rule now
+contains both an Oracle and a Postgres version of its SQL source template.
+
+`VSQLQuery` is now abstract: which database the query will be executed in
+(and with that which SQL dialect will be used) is determined by the class,
+so one of the new subclasses `OracleVSQLQuery` or `PostgresVSQLQuery` must
+be used instead. All dialect specific SQL generation is implemented by these
+two subclasses: selecting the SQL source template of a grammar rule, the SQL
+source for constants of type `BOOL`, `DATE` and `DATETIME` and for list and
+set constants, turning a `BOOL` expression into a real `where` condition,
+the operand of a `sum()` aggregation, the `from` clause for queries that
+select from no tables and the offset/limit clauses.
+
+
 ## 0.205.3 (2026-08-16)
 
 Fixed test `UL4Test.method_withsat`.

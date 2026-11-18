@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.208.0 (2026-11-??)
+## 0.208.0 (2026-11-18)
 
 `VSQLQuery.orderByVSQL()` now supports expressions of type `CLOB` in Oracle
 queries too. As Oracle can't sort by `CLOB` values, `OracleVSQLQuery` sorts

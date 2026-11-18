@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.208.0 (2026-11-18)
+
+`VSQLQuery.orderByVSQL()` now supports expressions of type `CLOB` in Oracle
+queries too. As Oracle can't sort by `CLOB` values, `OracleVSQLQuery` sorts
+by a prefix of the value instead.
+
+
 ## 0.207.0 (2026-09-28)
 
 `VSQLAST.fromsource()` has a new overload with a third parameter

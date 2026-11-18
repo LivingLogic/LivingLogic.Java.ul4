@@ -401,6 +401,15 @@ public abstract class VSQLQuery
 		{
 			String sqlSource = expr.getSQLSource();
 
+			// Not every database can sort by values of every vSQL type, so the
+			// query gets the chance to replace the expression with one that
+			// can be sorted (see `getOrderBySQLSource()`).
+			// This is only possible for vSQL expressions, since we don't know
+			// the type of a raw SQL expression. And whoever passes raw SQL is
+			// responsible for it being valid in an "order by" clause anyway.
+			if (expr instanceof VSQLExpr vsqlExpr)
+				sqlSource = vsqlExpr.getQuery().getOrderBySQLSource(sqlSource, vsqlExpr.getExpr().getDataType());
+
 			if (ascDesc != null)
 			{
 				sqlSource += " " + ascDesc;
@@ -529,6 +538,17 @@ public abstract class VSQLQuery
 	{@code BOOL} value has to be converted to a number first).
 	**/
 	protected abstract String getSumOperandSQLSource(String sql, VSQLDataType dataType);
+
+	/**
+	Return the SQL source for sorting by the vSQL expression with the SQL
+	source {@code sql} and the type {@code dataType}.
+
+	(Oracle can't sort by {@code CLOB} values, so {@link OracleVSQLQuery}
+	sorts by a prefix of the value instead, i.e. the order of two values that
+	only differ after that prefix is undefined. Postgres sorts by the complete
+	value.)
+	**/
+	protected abstract String getOrderBySQLSource(String sql, VSQLDataType dataType);
 
 	/**
 	Return the "from" clause used when the query selects from no tables

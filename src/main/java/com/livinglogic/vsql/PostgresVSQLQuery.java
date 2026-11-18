@@ -87,6 +87,12 @@ public class PostgresVSQLQuery extends VSQLQuery
 	}
 
 	@Override
+	protected String getOrderBySQLSource(String sql, VSQLDataType dataType)
+	{
+		return sql;
+	}
+
+	@Override
 	protected String getSQLSourceNoFrom(int indentLevel)
 	{
 		// Postgres doesn't have (and doesn't need) `dual`, so a query without

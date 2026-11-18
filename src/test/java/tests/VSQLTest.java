@@ -15,6 +15,7 @@ import com.livinglogic.vsql.VSQLField;
 import com.livinglogic.vsql.VSQLGroup;
 import com.livinglogic.vsql.VSQLQuery;
 import com.livinglogic.vsql.OracleVSQLQuery;
+import com.livinglogic.vsql.PostgresVSQLQuery;
 import com.livinglogic.vsql.VSQLFieldUnknownException;
 import com.livinglogic.vsql.VSQLReplacementVariableException;
 import com.livinglogic.vsql.VSQLUnsupportedOperationException;
@@ -1972,6 +1973,7 @@ public class VSQLTest
 		person_table.addField("grave", VSQLDataType.GEO, "{a}.per_grave");
 		person_table.addField("nobel_prize", VSQLDataType.BOOL, "{a}.per_nobel_prize");
 		person_table.addField("url", VSQLDataType.STR, "{a}.per_url");
+		person_table.addField("biography", VSQLDataType.CLOB, "{a}.per_biography");
 		person_table.addField("createdat", VSQLDataType.DATETIME, "{a}.per_createdat");
 
 		Map<String, VSQLField> fields = Map.of(
@@ -2065,6 +2067,50 @@ public class VSQLTest
 				vsql_field /* p.field1 */ t2
 			where
 				t1.fld_id_1 = t2.fld_id /* p.field1 */
+			""",
+			query
+		);
+	}
+
+	@Test
+	public void orderby_clob_oracle()
+	{
+		VSQLQuery query = new OracleVSQLQuery("select comment", makeFields());
+		query.selectVSQL("p.firstname");
+		query.orderByVSQL("p.biography desc nulls last");
+		query.orderByVSQL("p.lastname");
+
+		checkVSQL(
+			"""
+			/* select comment */
+			select
+				t1.per_firstname /* p.firstname */
+			from
+				vsql_person /* p */ t1
+			order by
+				dbms_lob.substr(t1.per_biography /* p.biography */, 1000, 1) desc nulls last,
+				t1.per_lastname /* p.lastname */
+			""",
+			query
+		);
+	}
+
+	@Test
+	public void orderby_clob_postgres()
+	{
+		VSQLQuery query = new PostgresVSQLQuery("select comment", makeFields());
+		query.selectVSQL("p.firstname");
+		query.orderByVSQL("p.biography desc nulls last");
+
+		checkVSQL(
+			"""
+			/* select comment */
+			select
+				t1.per_firstname /* p.firstname */
+			from
+				vsql_person /* p */ t1
+			order by
+				t1.per_biography /* p.biography */ desc nulls last
 			""",
 			query
 		);

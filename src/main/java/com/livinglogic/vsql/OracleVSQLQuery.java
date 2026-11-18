@@ -86,6 +86,12 @@ public class OracleVSQLQuery extends VSQLQuery
 	}
 
 	@Override
+	protected String getOrderBySQLSource(String sql, VSQLDataType dataType)
+	{
+		return dataType == VSQLDataType.CLOB ? "dbms_lob.substr(" + sql + ", " + ORDERBY_CLOB_PREFIX_LENGTH + ", 1)" : sql;
+	}
+
+	@Override
 	protected String getSQLSourceNoFrom(int indentLevel)
 	{
 		// Oracle requires a "from" clause, so we select from `dual`
@@ -106,6 +112,15 @@ public class OracleVSQLQuery extends VSQLQuery
 			buffer.append(indent).append("fetch next ").append(limit).append(" rows only\n");
 		return buffer.toString();
 	}
+
+	/**
+	Length of the prefix of a {@code CLOB} value that is used for sorting
+	(see {@link VSQLQuery#getOrderBySQLSource}). Oracle counts this in UTF-16
+	code units, each of which takes at most 3 bytes (in {@code AL32UTF8} as
+	well as in the CESU-8 character set {@code UTF8}), so the prefix always
+	fits into the 4000 bytes of a {@code varchar2}.
+	**/
+	public static final int ORDERBY_CLOB_PREFIX_LENGTH = 1000;
 
 	private static DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("'to_date('''yyyy-MM-dd''', ''YYYY-MM-DD'')'", Locale.US);
 	private static DateTimeFormatter formatterDateTime = DateTimeFormatter.ofPattern("'to_date('''yyyy-MM-dd HH:mm:ss'', '''YYYY-MM-DD HH24:MI:SS'')'", Locale.US);
